@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love-O-Meter - BoardTo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-circle" style="color: #17a2b8;"></i>
+                <span>BoardTo</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="/" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Boards</span>
+                </a>
+                <a href="/procrastination" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Procrastination Tool</span>
+                </a>
+                <a href="/love-meter" class="nav-item active">
+                    <i class="fas fa-heart"></i>
+                    <span>Love-O-Meter</span>
+                </a>
+                <a href="/life-decision" class="nav-item">
+                    <i class="fas fa-dice"></i>
+                    <span>Life Decision Generator</span>
+                </a>
+                <a href="/dont-tap" class="nav-item">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Don't Tap Game</span>
+                </a>
+                <a href="/logout" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <a href="/" class="home-link">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <span class="username">{{ username }}</span>
+                </div>
+                
+            </div>
+
+            <!-- Love-O-Meter -->
+            <div class="reporting-section">
+                <div class="love-meter">
+                    <h2 style="text-align: center; color: #e74c3c;">💔 Love-O-Meter</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 30px;">
+                        Discover your compatibility (spoiler: it's probably terrible)
+                    </p>
+                    
+                    <form id="loveForm">
+                        <div class="form-group">
+                            <label for="name1">Your Name:</label>
+                            <input type="text" id="name1" name="name1" placeholder="Enter your name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="name2">Their Name:</label>
+                            <input type="text" id="name2" name="name2" placeholder="Enter their name" required>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="is_hate" name="is_hate">
+                            <label for="is_hate">Actually, I hate this person</label>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Calculate Incompatibility</button>
+                    </form>
+                    
+                    <div id="result" class="compatibility-result" style="display: none;">
+                        <div class="compatibility-score" id="score">0%</div>
+                        <p id="message" style="color: #666;"></p>
+                        <div style="margin-top: 20px;">
+                            <div style="background: #f0f0f0; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div id="progressBar" style="height: 100%; background: linear-gradient(90deg, #e74c3c, #f39c12, #f1c40f); width: 0%; transition: width 1s ease;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loveForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            fetch('/love-meter', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                const scoreElement = document.getElementById('score');
+                const messageElement = document.getElementById('message');
+                const progressBar = document.getElementById('progressBar');
+                
+                const compatibility = data.compatibility;
+                const isHate = document.getElementById('is_hate').checked;
+                
+                scoreElement.textContent = compatibility + '%';
+                progressBar.style.width = compatibility + '%';
+                
+                let message = '';
+                if (isHate) {
+                    if (compatibility > 80) {
+                        message = "Perfect match! You two would hate each other beautifully! 💕";
+                        scoreElement.style.color = '#27ae60';
+                        progressBar.style.background = 'linear-gradient(90deg, #27ae60, #2ecc71)';
+                    } else {
+                        message = "Hmm, you might actually get along. How disappointing! 😞";
+                    }
+                } else {
+                    if (compatibility < 30) {
+                        message = "Ouch! Even the stars are laughing at this match! 😂";
+                        scoreElement.style.color = '#e74c3c';
+                    } else {
+                        message = "Wait, this is higher than expected. The algorithm must be broken! 🤔";
+                    }
+                }
+                
+                messageElement.textContent = message;
+                resultDiv.style.display = 'block';
+                
+                // Scroll to result
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Even the Love-O-Meter gave up on this match!');
+            });
+        });
+    </script>
+</body>
+</html>

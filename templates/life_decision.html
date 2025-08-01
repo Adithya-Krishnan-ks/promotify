@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Decision Generator - BoardTo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-circle" style="color: #17a2b8;"></i>
+                <span>BoardTo</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="/" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Boards</span>
+                </a>
+                <a href="/procrastination" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Procrastination Tool</span>
+                </a>
+                <a href="/love-meter" class="nav-item">
+                    <i class="fas fa-heart"></i>
+                    <span>Love-O-Meter</span>
+                </a>
+                <a href="/life-decision" class="nav-item active">
+                    <i class="fas fa-dice"></i>
+                    <span>Life Decision Generator</span>
+                </a>
+                <a href="/dont-tap" class="nav-item">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Don't Tap Game</span>
+                </a>
+                <a href="/logout" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <a href="/" class="home-link">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <span class="username">{{ username }}</span>
+                </div>
+                
+            </div>
+
+            <!-- Life Decision Generator -->
+            <div class="reporting-section">
+                <div class="decision-container">
+                    <h2>🎲 Life Decision Generator</h2>
+                    <p style="color: #666; margin-bottom: 30px;">
+                        Let fate decide your questionable life choices!
+                    </p>
+                    
+                    <div class="decision-text">
+                        {{ decision }}
+                    </div>
+                    
+                    <button onclick="generateNewDecision()" class="generate-btn">
+                        <i class="fas fa-dice"></i> Generate Another Bad Idea
+                    </button>
+                    
+                    <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                        <p style="margin: 0; color: #856404;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Disclaimer:</strong> We are not responsible for any life-altering decisions you make based on this generator. Proceed with caution (or don't, we're not your boss).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateNewDecision() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Don't Tap the Rectangle - BoardTo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-circle" style="color: #17a2b8;"></i>
+                <span>BoardTo</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="/" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Boards</span>
+                </a>
+                <a href="/procrastination" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Procrastination Tool</span>
+                </a>
+                <a href="/love-meter" class="nav-item">
+                    <i class="fas fa-heart"></i>
+                    <span>Love-O-Meter</span>
+                </a>
+                <a href="/life-decision" class="nav-item">
+                    <i class="fas fa-dice"></i>
+                    <span>Life Decision Generator</span>
+                </a>
+                <a href="/dont-tap" class="nav-item active">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Don't Tap Game</span>
+                </a>
+                <a href="/logout" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <a href="/" class="home-link">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <span class="username">{{ username }}</span>
+                 </div>
+                 
+            </div>
+
+            <!-- Don't Tap Game -->
+            <div class="reporting-section">
+                <div class="game-container">
+                    <h2>🎮 Don't Tap the Rectangle!</h2>
+                    <p style="color: #666; margin-bottom: 20px;">
+                        Click circles, triangles, stars, and hexagons to score points. <br>
+                        <strong style="color: #e74c3c;">DO NOT CLICK RECTANGLES!</strong>
+                    </p>
+                    
+                    <div class="score-display">
+                        Score: <span id="score">0</span>
+                    </div>
+                    
+                    <div id="gameArea" class="game-area">
+                        <!-- Shapes will be generated here -->
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <button id="startBtn" class="generate-btn">Start Game</button>
+                        <button id="pauseBtn" class="generate-btn" style="display: none; margin-left: 10px;">Pause</button>
+                    </div>
+                    
+                    <!-- Game Over Modal -->
+                    <div id="gameOverModal" class="game-over" style="display: none;">
+                        <h3 style="color: #e74c3c;">💥 Game Over!</h3>
+                        <p id="gameOverMessage"></p>
+                        <div class="score-display">
+                            Final Score: <span id="finalScore">0</span>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button onclick="restartGame()" class="generate-btn">Try Again</button>
+                            <a href="/" class="generate-btn" style="display: inline-block; margin-left: 10px; text-decoration: none;">Back to Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='dont_tap.js') }}"></script>
+</body>
+</html>
